@@ -1,3 +1,4 @@
+using IKEA.BLL.Serivces.DepartmentService;
 using IKEA.DAL.Models.Departments;
 using IKEA.DAL.Persistance.Data;
 using IKEA.DAL.Persistance.Reposatories.Departments;
@@ -20,12 +21,15 @@ namespace IKEA.PL
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IDepartmentRepositor, DepartmentRepository>();
+          
+            builder.Services.AddScoped<IdepartmentServices, DepartmentServices>(); 
 
             builder.Services.AddDbContext<ApplicationDbContext>(Options=>
             {
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
               
             });
+
 
             #endregion
 

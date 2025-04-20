@@ -99,7 +99,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
             return Repository.Update(UpdatedDepartment);
         }
 
-        public bool DeleteDepartment(int id)
+        public bool DeleteDepartment(int id)  
         {
             var Department=Repository.GetById(id);
          
