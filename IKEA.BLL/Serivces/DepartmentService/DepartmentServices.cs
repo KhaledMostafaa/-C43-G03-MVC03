@@ -16,6 +16,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
         {
             Repository = _repositary;
         }
+        
 
     }
 }
