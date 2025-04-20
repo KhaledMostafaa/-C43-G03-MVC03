@@ -22,7 +22,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
         }
         public IEnumerable<DepartmentToReturnDto> GetAllDepartment()  
         {
-            var Departments=Repository.GetAll().Select(dept=>new DepartmentDetailsDto()
+            var Departments = Repository.GetAll().Select(dept=>new DepartmentToReturnDto()
             {
                 Id = dept.Id,
                 Name = dept.Name,
@@ -30,7 +30,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
                 CreationDate = dept.CreationDate,
 
             }).ToList();
-            return (IEnumerable<DepartmentToReturnDto>)Departments;
+            return Departments;
         }
         //    List<DepartmentToReturnDto>departmentToReturnDtos = new List<DepartmentToReturnDto>();
         //    foreach(var dept in Departments)

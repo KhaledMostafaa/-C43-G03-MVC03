@@ -15,5 +15,6 @@ namespace IKEA.BLL.DTO.Departments
         public string? Description { get; set; }
 
         public DateOnly CreationDate { get; set; }
+
     }
 }
