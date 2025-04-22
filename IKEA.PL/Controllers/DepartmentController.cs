@@ -17,6 +17,7 @@ namespace IKEA.PL.Controllers
             logger = _logger;
             this.webHost = webHost;
         }
+        
         #region Index
         [HttpGet]
         public IActionResult Index()
@@ -27,6 +28,7 @@ namespace IKEA.PL.Controllers
 
         }
         #endregion
+
 
         #region Details
         [HttpGet]
@@ -41,8 +43,6 @@ namespace IKEA.PL.Controllers
             return View(department);
         }
         #endregion
-
-
 
 
         #region Create
@@ -99,8 +99,65 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
+        #region update
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(id is null)
+                return BadRequest();
+            var department = departmentServices.GetDepartmentById(id.Value);
+            if (department is null)
+                return NotFound();
+            var MappedDepartment = new UpdatedDepartmentDto()
+            {
+                Id = department.Id,
+                Name = department.Name,
+                Code = department.Code,
+                Description = department.Description,
+                CreationDate = department.CreationDate
+            };
+            return View(MappedDepartment);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedDepartmentDto departmentDto)
+        {
+            if(!ModelState.IsValid)
+                return View(departmentDto);
+           
+            var message = string.Empty;
+            try 
+            {
+                var result = departmentServices.UpdateDepartment(departmentDto);
+                if (result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    message = "Department is not Updated";  
+                   
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex,ex.Message);
+                message=webHost.IsDevelopment() ? ex.Message : "An Error Effect at The Update Operator";
+                throw;
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return View(departmentDto);
+
+        }
 
 
 
-    } 
+
+        #endregion
+
+
+
+
+
+
+    }
 }
