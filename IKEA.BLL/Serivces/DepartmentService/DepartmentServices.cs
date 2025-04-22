@@ -57,6 +57,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
                     Id = Department.Id,
                     Name = Department.Name,
                     Code = Department.Code,
+                    Description = Department.Description,
                     CreationDate = Department.CreationDate,
                     IsDeleted = Department.IsDeleted,
                     LastModifiedBy = Department.LastModifiedBy,
@@ -80,6 +81,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
                 CreadedOn=DateTime.Now,
                 LastModifiedOn =DateTime.Now,
                 LastModifiedBy=1,
+               
             };
             return Repository.Add(CreatedDepartment);
         }

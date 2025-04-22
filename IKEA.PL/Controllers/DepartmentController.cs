@@ -28,7 +28,21 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
-       
+        #region Details
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+
+            if (id is null)
+                return BadRequest();
+            var department = departmentServices.GetDepartmentById(id.Value);
+            if (department is null)
+                return NotFound();
+            return View(department);
+        }
+        #endregion
+
+
 
 
         #region Create
