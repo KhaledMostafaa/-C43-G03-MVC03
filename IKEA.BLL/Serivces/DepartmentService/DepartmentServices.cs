@@ -69,7 +69,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
         }
 
         public int CreateDepartment(CreatedDepartmentDTO departmentDTO)
-        {
+         {
             var CreatedDepartment =new Department()
             {
                 Code = departmentDTO.Code,
