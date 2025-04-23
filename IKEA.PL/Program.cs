@@ -1,7 +1,10 @@
 using IKEA.BLL.Serivces.DepartmentService;
+using IKEA.BLL.Serivces.EmployeeServices;
 using IKEA.DAL.Models.Departments;
+using IKEA.DAL.Models.Employees;
 using IKEA.DAL.Persistance.Data;
 using IKEA.DAL.Persistance.Reposatories.Departments;
+using IKEA.DAL.Persistance.Reposatories.Employees;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.IO.Compression;
@@ -23,12 +26,14 @@ namespace IKEA.PL
             builder.Services.AddScoped<IDepartmentRepositor, DepartmentRepository>();
           
             builder.Services.AddScoped<IdepartmentServices, DepartmentServices>(); 
+            builder.Services.AddScoped<IEmployeeReposatoiry, EmployeeReposatiory>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(Options=>
             {
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
               
             });
+            builder.Services.AddScoped<IEmployeeServices, EmployeeService>();
 
 
             #endregion
