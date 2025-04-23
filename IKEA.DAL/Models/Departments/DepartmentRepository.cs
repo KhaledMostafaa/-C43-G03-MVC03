@@ -21,9 +21,9 @@ namespace IKEA.DAL.Models.Departments
         public IEnumerable<Department> GetAll(bool WithNoTracking = true)
         {
             if (WithNoTracking)
-                return dbContext.Departments.AsNoTracking().ToList();
+                return dbContext.Departments.Where(D=>D.IsDeleted==false).AsNoTracking().ToList();
                
-            return dbContext.Departments.ToList();
+            return dbContext.Departments.Where(D => D.IsDeleted == false).ToList();
         }
 
         public Department GetById(int id)
@@ -49,7 +49,9 @@ namespace IKEA.DAL.Models.Departments
         }
         public int Delete(Department department)
         {
-          dbContext.Departments.Remove(department);
+            department.IsDeleted = true;
+            dbContext.Departments.Update(department);
+
             return dbContext.SaveChanges();
         }
 
