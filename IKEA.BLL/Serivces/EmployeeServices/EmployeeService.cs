@@ -25,6 +25,7 @@ namespace IKEA.BLL.Serivces.EmployeeServices
                 Id = E.Id,
                 Name = E.Name,
                 Age = E.Age,
+                
                 Salary = E.Salary,
                 IsActive = E.IsActive,
                 Email = E.Email,
