@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IKEA.PL.Controllers
 {
     public class EmployeeController : Controller
+
     {
         private readonly IEmployeeServices employeeServices;
         private readonly ILogger<EmployeeController> logger;
@@ -14,10 +15,11 @@ namespace IKEA.PL.Controllers
             this.employeeServices = employeeServices;
             this.logger = logger;
             this.environment = environment;
+
         }
 
         public IActionResult Index()
-        {
+        { 
             return View();
         }
     }

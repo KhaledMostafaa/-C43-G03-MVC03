@@ -12,6 +12,7 @@ using System.IO.Compression;
 namespace IKEA.PL
 {
     public class Program
+    
     {
         
         public static void Main(string[] args)
@@ -33,15 +34,18 @@ namespace IKEA.PL
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
               
             });
+             
             builder.Services.AddScoped<IEmployeeServices, EmployeeService>();
-
 
             #endregion
 
 
             var app = builder.Build();
+    
 
-                #region configure pipline
+
+
+            #region configure pipline
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -61,12 +65,23 @@ namespace IKEA.PL
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-                
+
             #endregion
-    
+
             app.Run();
+
+
+
+
+
+
+
+
+
+
 
 
         }
     }
 }
+                                    
