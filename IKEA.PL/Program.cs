@@ -10,9 +10,9 @@ using Microsoft.Extensions.Options;
 using System.IO.Compression;
 
 namespace IKEA.PL
+   
 {
     public class Program
-    
     {
         
         public static void Main(string[] args)
@@ -36,14 +36,14 @@ namespace IKEA.PL
             });
              
             builder.Services.AddScoped<IEmployeeServices, EmployeeService>();
+           
 
             #endregion
 
 
             var app = builder.Build();
+       
     
-
-
 
             #region configure pipline
             // Configure the HTTP request pipeline.
@@ -67,9 +67,9 @@ namespace IKEA.PL
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             #endregion
+            
 
             app.Run();
-
 
 
 
