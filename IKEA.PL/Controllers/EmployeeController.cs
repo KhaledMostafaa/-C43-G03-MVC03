@@ -3,6 +3,7 @@ using IKEA.BLL.DTO.Employees;
 using IKEA.BLL.Serivces.DepartmentService;
 using IKEA.BLL.Serivces.EmployeeServices;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IKEA.PL.Controllers
@@ -95,6 +96,64 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
+        #region Update
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var Employee = employeeServices.GetEmployeeById(id.Value);
+            if (Employee is null)
+                return NotFound();
+            var MappedEmployee = new UpdatedEmployeeDto()
+            {
+                Id = Employee.Id,
+                Name = Employee.Name,
+                Age = Employee.Age,
+                Salary = Employee.Salary,
+                HiringDate = Employee.HiringDate,
+                Gender = Employee.Gender,
+                EmployeeType = Employee.EmployeeType,
+                IsActive = Employee.IsActive,
+                PhoneNumber = Employee.PhoneNumber,
+
+
+                Email = Employee.Email,
+
+            };
+            return View(MappedEmployee);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedEmployeeDto employeeDto)
+        {
+            if (!ModelState.IsValid)
+                return View(employeeDto);
+
+            var message = string.Empty;
+            try
+            {
+                var result = employeeServices.UpdatedEmployee(employeeDto);
+                if (result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    message = "Employee is not Updated";
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                message = environment.IsDevelopment() ? ex.Message : "An Error Effect at The Update edmployee";
+                throw;
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return View(employeeDto);
+
+        } 
+        #endregion
 
     }
 }
