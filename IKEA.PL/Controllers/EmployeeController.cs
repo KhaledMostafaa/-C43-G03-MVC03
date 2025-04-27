@@ -152,8 +152,50 @@ namespace IKEA.PL.Controllers
             ModelState.AddModelError(string.Empty, message);
             return View(employeeDto);
 
-        } 
+        }
         #endregion
+
+        #region Delete
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var Employee = employeeServices.GetEmployeeById(id.Value);
+            if (Employee is null)
+                return NotFound();
+            return View(Employee);
+
+        }
+        
+        [HttpPost]
+        public IActionResult Delete(int EmpId)
+        {
+            var message = string.Empty;
+            try
+            {
+                var IsDeleted = employeeServices.DeleteEmployee(EmpId);
+                if (IsDeleted)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    message = "Employee is not Deleted";
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                message = environment.IsDevelopment() ? ex.Message : "An Error Effect at The Delete Employee";
+                throw;
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return RedirectToAction(nameof(Delete), new { id = EmpId });
+
+        }
+        #endregion
+
+
+
 
     }
 }
