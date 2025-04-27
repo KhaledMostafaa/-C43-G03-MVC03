@@ -174,7 +174,7 @@ namespace IKEA.PL.Controllers
             try
             {
                var IsDeleted= departmentServices.DeleteDepartment(Deptid);
-                if(IsDeleted)
+                if (IsDeleted)
                     return RedirectToAction(nameof(Index));
                 else
                 {
