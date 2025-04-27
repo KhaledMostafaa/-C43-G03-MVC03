@@ -20,7 +20,10 @@ namespace IKEA.BLL.Serivces.EmployeeServices
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
-            return reposatoiry.GetAll().Where(E=>E.IsDeleted==false).Select(E=>new EmployeeDto() 
+            var Employees = reposatoiry.GetAll();
+            var FilteredEmployees = Employees
+                .Where(E => E.IsDeleted == false);
+                var AfterFilteration=FilteredEmployees.Select(E=>new EmployeeDto() 
             {
                 Id = E.Id,
                 Name = E.Name,
@@ -33,7 +36,8 @@ namespace IKEA.BLL.Serivces.EmployeeServices
                 EmployeeType = E.EmployeeType
 
 
-            }).ToList();
+            });
+            return AfterFilteration.ToList();
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)

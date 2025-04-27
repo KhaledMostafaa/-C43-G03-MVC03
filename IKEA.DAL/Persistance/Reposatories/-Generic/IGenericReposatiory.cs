@@ -11,7 +11,7 @@ namespace IKEA.DAL.Persistance.Reposatories._Generic
 {
     public interface IGenericReposatiory<T>where T:ModelBase
     {
-        IEnumerable<T> GetAll(bool WithNoTracking = true);
+        IQueryable<T> GetAll(bool WithNoTracking = true);
 
         T GetById(int id);
 
