@@ -1,5 +1,6 @@
 ﻿using IKEA.BLL.DTO.Departments;
 using IKEA.BLL.Serivces.DepartmentService;
+using IKEA.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -52,10 +53,11 @@ namespace IKEA.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDTO departmentDTO)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(DepartmentVM departmentVM)
         {
             if (!ModelState.IsValid)
-                return View(departmentDTO);
+                return View(departmentVM);
 
 
 
@@ -65,36 +67,43 @@ namespace IKEA.PL.Controllers
 
             try
             {
+                var departmentDTO = new CreatedDepartmentDTO()
+                {
+                    Name = departmentVM.Name,
+                    Code = departmentVM.Code,
+                    Description = departmentVM.Description,
+                    CreationDate = DateOnly.FromDateTime(DateTime.Now)
+                };
                 var Result = departmentServices.CreateDepartment(departmentDTO);
 
                 if (Result > 0)
 
                     return RedirectToAction(nameof(Index));
                 else
-                {
+                
                     Message = "Department is not Created ";
-                    ModelState.AddModelError(string.Empty, Message);
-                    return View(departmentDTO);
-                }
+                   
+                
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message);
                 if (webHost.IsDevelopment())
-                {
+                
                     Message = ex.Message;
-                    ModelState.AddModelError(string.Empty, Message);
-                    return (View(departmentDTO));
-                }
+                
+                
                 else
-                {
+                
                     Message = "An Error Effect at The Creation Operator";
-                    ModelState.AddModelError(string.Empty, Message);
-                    return (View(departmentDTO));
-                }
+                  
+                
 
 
+               
             }
+            ModelState.AddModelError(string.Empty, Message);
+            return (View(departmentVM));
 
         }
         #endregion
@@ -108,7 +117,7 @@ namespace IKEA.PL.Controllers
             var department = departmentServices.GetDepartmentById(id.Value);
             if (department is null)
                 return NotFound();
-            var MappedDepartment = new UpdatedDepartmentDto()
+            var MappedDepartment = new DepartmentVM()
             {
                 Id = department.Id,
                 Name = department.Name,
@@ -120,15 +129,25 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(UpdatedDepartmentDto departmentDto)
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Edit(DepartmentVM departmentVM)
         {
             if(!ModelState.IsValid)
-                return View(departmentDto);
+                return View(departmentVM);
            
             var message = string.Empty;
             try 
             {
-                var result = departmentServices.UpdateDepartment(departmentDto);
+                var departmentDTO = new UpdatedDepartmentDto()
+                {
+                    Id = departmentVM.Id,
+                    Name = departmentVM.Name,
+                    Code = departmentVM.Code,
+                    Description = departmentVM.Description,
+                    CreationDate = DateOnly.FromDateTime(DateTime.Now)
+                };
+                var result = departmentServices.UpdateDepartment(departmentDTO);
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
@@ -145,7 +164,7 @@ namespace IKEA.PL.Controllers
                 throw;
             }
             ModelState.AddModelError(string.Empty, message);
-            return View(departmentDto);
+            return View(departmentVM);
 
         }
 
@@ -174,7 +193,7 @@ namespace IKEA.PL.Controllers
             try
             {
                var IsDeleted= departmentServices.DeleteDepartment(Deptid);
-                if(IsDeleted)
+                if (IsDeleted)
                     return RedirectToAction(nameof(Index));
                 else
                 {

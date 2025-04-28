@@ -22,7 +22,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
         }
         public IEnumerable<DepartmentToReturnDto> GetAllDepartment()  
         {
-            var Departments = Repository.GetAll().Select(dept=>new DepartmentToReturnDto()
+            var Departments = Repository.GetAll().Where(D=>!D.IsDeleted).Select(dept=>new DepartmentToReturnDto()
             {
                 Id = dept.Id,
                 Name = dept.Name,
