@@ -39,6 +39,8 @@ namespace IKEA.PL.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Create(CreatedEmployeeDto employeeDto)
         {
             if (!ModelState.IsValid)
@@ -125,6 +127,7 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(UpdatedEmployeeDto employeeDto)
         {
             if (!ModelState.IsValid)
