@@ -1,4 +1,5 @@
 ﻿using IKEA.BLL.DTO.Departments;
+using Microsoft.IdentityModel.Logging;
 using System;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace IKEA.BLL.Serivces.DepartmentService
     {//dto:data transfer object 
         IEnumerable<DepartmentToReturnDto> GetAllDepartment();
         DepartmentDetailsDto? GetDepartmentById(int id);
+       
 
         int CreateDepartment(CreatedDepartmentDTO departmentDTO);
         int UpdateDepartment(UpdatedDepartmentDto departmentDto);

@@ -24,6 +24,10 @@ namespace IKEA.PL.Controllers
         public IActionResult Index()
         {
             var Departments = departmentServices.GetAllDepartment();
+            ViewData["Message"] = "Hello From View Data";
+          //  ViewBag.Message = "Hello From ViewBag";
+            // ViewData  is a dictionary => key value pair
+
 
             return View(Departments);
 
@@ -77,8 +81,12 @@ namespace IKEA.PL.Controllers
                 var Result = departmentServices.CreateDepartment(departmentDTO);
 
                 if (Result > 0)
-
+                {
+                    TempData["Message"] = $"{departmentDTO.Name} Department Created Successfully";
                     return RedirectToAction(nameof(Index));
+
+                }
+
                 else
                 
                     Message = "Department is not Created ";
